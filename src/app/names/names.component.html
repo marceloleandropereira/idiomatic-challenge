@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="input-row">
+    <label for="t_filter">
+      Filter prefix:
+    </label>
+    <input id="t_filter" type="text" [formControl]="filter">
+  </div>
+
+  <div class="container__crud">
+    <div class="container__crud__list">
+      <ul>
+        <li>Coffee</li>
+        <li>Tea</li>
+        <li>Milk</li>
+        <li>Coffee</li>
+        <li>Tea</li>
+        <li>Milk</li>
+        <li>Coffee</li>
+        <li>Tea</li>
+        <li>Milk</li>
+        <li>Coffee</li>
+        <li>Tea</li>
+        <li>Milk</li>
+        <li>Coffee</li>
+        <li>Tea</li>
+        <li>Milk</li>
+        <li>Coffee</li>
+        <li>Tea</li>
+        <li>Milk</li>                                        
+      </ul>
+    </div>
+
+    <div class="container__crud__form">
+      <form [formGroup]="nameForm">
+        <div class="input-column">
+          <label for="t_name">
+            Name:
+          </label>
+          <input id="t_name" type="text" formControlName="name">
+        </div>
+        
+        <div class="input-column">
+          <label for="t_surname">
+            Surname:
+          </label>
+          <input id="t_surname" type="text" formControlName="surname">
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="container__buttons">
+    <button type="button" class="btn btn--create">Create</button>
+    <button type="button" class="btn btn--update">Update</button>
+    <button type="button" class="btn btn--delete">Delete</button>
+  </div>
+
+</div>
