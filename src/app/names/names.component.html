@@ -8,25 +8,14 @@
 
   <div class="container__crud">
     <div class="container__crud__list">
-      <ul>
-        <li>Coffee</li>
-        <li>Tea</li>
-        <li>Milk</li>
-        <li>Coffee</li>
-        <li>Tea</li>
-        <li>Milk</li>
-        <li>Coffee</li>
-        <li>Tea</li>
-        <li>Milk</li>
-        <li>Coffee</li>
-        <li>Tea</li>
-        <li>Milk</li>
-        <li>Coffee</li>
-        <li>Tea</li>
-        <li>Milk</li>
-        <li>Coffee</li>
-        <li>Tea</li>
-        <li>Milk</li>                                        
+      <ul class="names-list">
+        <li *ngFor="let fullName of fullNames; let i = index"
+            (click)="selectName(i)"
+            [ngClass]="{'names-list--selected' : indexSelectedName === i}">
+          <span class="names-list__full-name">
+            {{ fullName.name }} {{ fullName.surname }}
+          </span>
+        </li>
       </ul>
     </div>
 
@@ -50,9 +39,28 @@
   </div>
 
   <div class="container__buttons">
-    <button type="button" class="btn btn--create">Create</button>
-    <button type="button" class="btn btn--update">Update</button>
-    <button type="button" class="btn btn--delete">Delete</button>
+    <button id="btn_create" 
+            type="button"
+            class="btn btn--create"
+            (click)="createName()">
+      Create
+    </button>
+
+    <button id="btn_update"
+            type="button"
+            class="btn btn--update"
+            [disabled]="!hasSelectedName"
+            (click)="updateName()">
+      Update
+    </button>
+
+    <button id="btn_delete"
+            type="button"
+            class="btn btn--delete"
+            [disabled]="!hasSelectedName"
+            (click)="deleteName()">
+      Delete
+    </button>
   </div>
 
 </div>
