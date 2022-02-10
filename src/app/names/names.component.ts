@@ -124,7 +124,7 @@ export class NamesComponent implements OnInit, OnDestroy {
     let selectedName = false;
 
     this.fullNames.forEach((fullName: FullName, index: number) => {
-      if (fullName.surname.toLowerCase().includes(this.filter.value.toLowerCase())) {
+      if (fullName.surname.toLowerCase().startsWith(this.filter.value.toLowerCase())) {
         filteredNames.push({
           name: fullName.name,
           surname: fullName.surname,
