@@ -1,3 +1,5 @@
+$mobile-width: 360px;
+
 :host {
   display: flex;
   justify-content: center;
@@ -15,19 +17,19 @@
     display: flex;
     margin-top: 24px;
 
-    @media (max-width: 320px) {
+    @media (max-width: $mobile-width) {
       flex-direction: column;
     }
 
     &__list {
       width: 150px;
       height: 200px;
-      border: 1px solid #cccccc;
+      border: 1px solid var(--color-border);
       border-radius: 6px;
       overflow: hidden;
       overflow-y: auto;
 
-      @media (max-width: 320px) {
+      @media (max-width: $mobile-width) {
         width: 100%;
       }
     }
@@ -36,7 +38,7 @@
       flex: 1;
       margin-left: 16px;
 
-      @media (max-width: 320px) {
+      @media (max-width: $mobile-width) {
         margin-top: 16px;
         margin-left: 0px;
       }
@@ -48,7 +50,7 @@
     justify-content: space-evenly;
     margin-top: 24px;
 
-    @media (max-width: 320px) {
+    @media (max-width: $mobile-width) {
       flex-direction: column;
       margin-top: 0px;
     }
@@ -62,39 +64,39 @@
   align-items: center;
   padding: 6px 16px;
   border-radius: 6px;
-  border: 1px solid #cccccc;
+  border: 1px solid var(--color-border);
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 0.03em;
   box-shadow: 3px 4px 20px -13px rgb(0 0 0 / 70%);
   cursor: pointer;
 
-  @media (max-width: 320px) {
+  @media (max-width: $mobile-width) {
     flex: 1;
     margin-top: 8px;
   }
 
   &--create {
-    background-color: #6ee7b7;
+    background-color: var(--color-create);
 
     &:hover {
-      background-color: #6ee7b7b8;
+      background-color: var(--color-create-hover);
     }
   }
 
   &--update {
-    background-color: #fde689;
+    background-color: var(--color-update);
 
     &:hover {
-      background-color: #fde689b8;
+      background-color: var(--color-update-hover);
     }
   }
   
   &--delete {
-    background-color: #fca5a5;
+    background-color: var(--color-delete);
 
     &:hover {
-      background-color: #fca5a5b8;
+      background-color: var(--color-delete-hover);
     }
   }
 
@@ -107,7 +109,7 @@
   display: flex;
   align-items: center;
 
-  @media (max-width: 320px) {
+  @media (max-width: $mobile-width) {
     display: block;
   }
 
@@ -115,7 +117,7 @@
     text-align: end;
     margin-right: 8px;
 
-    @media (max-width: 320px) {
+    @media (max-width: $mobile-width) {
       margin-right: 0px;
     }
   }
@@ -123,7 +125,7 @@
   > input {
     flex: 1;
 
-    @media (max-width: 320px) {
+    @media (max-width: $mobile-width) {
       margin-top: 8px;
     }
   }
@@ -144,30 +146,7 @@ input[type=text] {
   width: 100%;
   padding: 6px 8px;
   display: inline-block;
-  border: 1px solid #e2e2e2;
+  border: 1px solid var(--color-border);
   border-radius: 6px;
   box-sizing: border-box;
-}
-
-.names-list {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-
-  > li {
-    padding: 6px 4px;
-    cursor: pointer;
-    
-    > span {
-      width: 100%;
-    }
-
-    &:hover {
-      background-color: #e2e2e2;
-    }
-  }
-
-  &--selected {
-    background-color: #add8e6;
-  }
 }

@@ -8,15 +8,11 @@
 
   <div class="container__crud">
     <div class="container__crud__list">
-      <ul class="names-list">
-        <li *ngFor="let fullName of fullNames; let i = index"
-            (click)="selectName(i)"
-            [ngClass]="{'names-list--selected' : indexSelectedName === i}">
-          <span class="names-list__full-name">
-            {{ fullName.name }} {{ fullName.surname }}
-          </span>
-        </li>
-      </ul>
+      <app-names-list 
+        [fullNames]="fullNamesFiltered"
+        [indexSelectedName]="indexSelectedName"
+        (onSelectName)="selectName($event)">
+      </app-names-list>
     </div>
 
     <div class="container__crud__form">

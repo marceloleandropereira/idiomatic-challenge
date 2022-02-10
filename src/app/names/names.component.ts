@@ -1,12 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+
+import { NameService } from '../services/name.service';
+import { FullName, FullNameStorage } from './models/full-name.model';
 
 @Component({
   selector: 'app-names',
   templateUrl: './names.component.html',
   styleUrls: ['./names.component.scss']
 })
-export class NamesComponent implements OnInit {
+export class NamesComponent implements OnInit, OnDestroy {
 
   public indexSelectedName: number = -1;
   public filter = new FormControl('');
@@ -16,25 +21,24 @@ export class NamesComponent implements OnInit {
     surname: new FormControl('', Validators.required)
   });
 
-  public fullNames = [
-    {
-      name: 'José',
-      surname: 'Ricardo'
-    },
-    {
-      name: 'Gavin',
-      surname: 'Belson'
-    },
-    {
-      name: 'João',
-      surname: 'Frederico'
-    },        
-  ];
+  public fullNames: FullName[];
+  public fullNamesFiltered: FullNameStorage[];
 
-  constructor(private formBuilder: FormBuilder) { }
+  private subscription: Subject<any> = new Subject();
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private nameService: NameService
+  ) { }
 
   ngOnInit(): void {
-    // this.filter.valueChanges.subscribe
+    this.listenerFilter();
+    this.refreshNamesList();
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.next();
+    this.subscription.complete();
   }
 
   public get hasSelectedName(): boolean {
@@ -56,22 +60,34 @@ export class NamesComponent implements OnInit {
 
   public createName(): void {
     if (this.validateForm()) {
-      this.fullNames.push({
+      const saved = this.nameService.saveName({
         name: this.nameForm.controls['name'].value,
         surname: this.nameForm.controls['surname'].value,
-      })
+      });
+
+      if (saved) {
+        this.refreshNamesList();
+      } else {
+        alert('Name already registered');
+      }
     }
   }
 
   public updateName(): void {
     if (this.validateForm()) {
-      this.fullNames[this.indexSelectedName].name = this.nameForm.controls['name'].value;
-      this.fullNames[this.indexSelectedName].surname = this.nameForm.controls['surname'].value;
+      this.nameService.updateName({
+        index: this.indexSelectedName,
+        name: this.nameForm.controls['name'].value,
+        surname: this.nameForm.controls['surname'].value
+      });
+
+      this.refreshNamesList();
     }
   }
 
   public deleteName(): void {
-    this.fullNames.splice(this.indexSelectedName, 1);
+    this.nameService.deleteName(this.indexSelectedName);
+    this.refreshNamesList();
     this.clearSelection();
   }
 
@@ -88,5 +104,43 @@ export class NamesComponent implements OnInit {
     }
 
     return formValid;
+  }
+
+  private refreshNamesList(): void {
+    this.fullNames = this.nameService.getNamesParsed();
+    this.setFilteredFullNames();
+  }
+
+  private listenerFilter(): void {
+    this.filter.valueChanges
+      .pipe(debounceTime(300), takeUntil(this.subscription))
+      .subscribe(() => {
+        this.setFilteredFullNames();
+      });
+  }
+
+  private setFilteredFullNames(): void {
+    const filteredNames: FullNameStorage[] = [];
+    let selectedName = false;
+
+    this.fullNames.forEach((fullName: FullName, index: number) => {
+      if (fullName.surname.toLowerCase().includes(this.filter.value.toLowerCase())) {
+        filteredNames.push({
+          name: fullName.name,
+          surname: fullName.surname,
+          index
+        });
+
+        if (this.indexSelectedName === index) {
+          selectedName = true;
+        }
+      }
+    });
+
+    this.fullNamesFiltered = filteredNames;
+
+    if (!selectedName) {
+      this.clearSelection();
+    }
   }
 }
