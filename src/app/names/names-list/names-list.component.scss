@@ -1,0 +1,22 @@
+.names-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  > li {
+    padding: 6px 4px;
+    cursor: pointer;
+    
+    > span {
+      width: 100%;
+    }
+
+    &:hover {
+      background-color: var(--color-hover);
+    }
+  }
+
+  &--selected {
+    background-color: var(--color-selected);
+  }
+}

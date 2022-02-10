@@ -1,1 +1,9 @@
-<p>names-list works!</p>
+<ul class="names-list">
+  <li *ngFor="let fullName of fullNames; let i = index"
+      (click)="selectName(fullName.index)"
+      [ngClass]="{'names-list--selected' : indexSelectedName === fullName.index}">
+    <span class="names-list__full-name">
+      {{ fullName.name }} {{ fullName.surname }}
+    </span>
+  </li>
+</ul>
